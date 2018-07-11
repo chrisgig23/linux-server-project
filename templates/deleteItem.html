@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/styles.css') }}">
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="header-container">
+        <!-- <img class="header-img" src="static/img/sports-header.jpg"
+        alt="page header image"> -->
+
+        <a href="{{ url_for('showCatalog') }}"><h1 class="main-header">Catalog App</h1></a>
+
+        <div class="session-status">
+          {% if 'username' not in session: %}
+            <div class="login-logout">
+              <a href="{{ url_for('showLogin') }}">Login</a>
+            </div>
+          {% else %}
+            <div class="welcome">
+              <p>Hello, {{ session.username }}</p>
+            </div>
+            <div class="login-logout">
+              <a href="{{ url_for('gdisconnect') }}">Logout</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="flash">
+        <!--MESSAGE FLASHING-->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+
+            <ul>
+            {% for message in messages %}
+              <li><strong>{{message}}</strong></li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+      </div>
+      
+      <div class="delete-page-info">
+        <div class="page-header">
+          <h2>Delete Item</h2>
+        </div>
+
+        <div class="delete-item">
+          <p>Are you sure you want to delete {{ item.name }}?</p>
+        </div>
+
+        <form action="{{ url_for('deleteItem', category_name=category_name, item_name=item_name) }}" method='post'>
+
+          <div class="form-buttons delete">
+            <input type='submit' value='Delete'>
+
+            <!-- Cancel link goes here  -->
+            <a class="cancel" href="{{ url_for('showCategory', category_name=category_name)}}">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+
+</html>

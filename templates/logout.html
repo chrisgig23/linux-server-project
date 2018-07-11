@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/styles.css') }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+    <script src="//apis.google.com/js/platform.js?onload=start"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="header-container">
+        <a href="{{ url_for('showCatalog') }}"><h1 class="main-header">Catalog App</h1></a>
+      </div>
+
+      <div class="logged-out">
+        <p>You have been successfully logged out. Returning to Main Menu..</p>
+      </div>
+
+      <script>
+        window.setTimeout(function(){
+
+        // Move to main menu after 5 Seconds
+        window.location.href = "{{url_for('showCatalog')}}";
+
+        }, 5000);
+
+      </script>
+    </div>
+  </body>
+</html>

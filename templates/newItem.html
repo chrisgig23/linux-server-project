@@ -1,0 +1,81 @@
+<html>
+<head>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+
+<body>
+  <div class="page">
+    <div class="header-container">
+      <a href="{{ url_for('showCatalog') }}"><h1 class="main-header">Catalog App</h1></a>
+
+      <div class="session-status">
+        {% if 'username' not in session: %}
+          <div class="login-logout">
+            <a href="{{ url_for('showLogin') }}">Login</a>
+          </div>
+        {% else %}
+          <div class="welcome">
+            <p>Hello, {{ session.username }}</p>
+          </div>
+          <div class="login-logout">
+            <a href="{{ url_for('gdisconnect') }}">Logout</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="flash">
+      <!--MESSAGE FLASHING-->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+          <ul>
+          {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+    
+    <div class="new-page-info">
+      <div class="page-header">
+        <h2>New Item</h2>
+      </div>
+
+      <div class="item-form">
+        <form action="{{ url_for('newItem', category_name=category_name) }}" method='post'>
+
+          <div class="form-header"><p>Title</p></div>
+          <input type='text' size='30' name='title' placeholder='New Item Title'>
+
+          <div class="form-header"><p>Description</p></div>
+          <input type='text' size='30' name='description' placeholder='Description'>
+
+          <div class="form-header"><p>Category</p></div>
+          <div class="category-select">
+            <select name='category'>
+              {% for c in listOfCategories %}
+                <!-- Selects the current category to add item to -->
+                {% if category_name == c.name: %}
+                  <option value="{{ c.id }}" selected>{{ c.name }}</option>
+                {% else %}
+                  <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endif %}
+              {%endfor%}
+            </select>
+          </div>
+
+          <div class="form-buttons">
+            <input type='submit' value='Create'>
+
+            <a class="cancel" href="{{ url_for('showCategory', category_name=category_name)}}">Cancel</a>
+            <!-- Cancel link goes here  -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
